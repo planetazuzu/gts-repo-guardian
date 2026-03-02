@@ -20,7 +20,7 @@ export async function reviewAllRepositories(username: string) {
         name: repo.name,
         score,
         description: repo.description,
-        updated: new Date(repo.updated_at).toLocaleDateString(),
+        updated: repo.updated_at ? new Date(repo.updated_at).toLocaleDateString() : 'N/A',
         stars: repo.stargazers_count,
       });
     }

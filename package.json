@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp -r src/templates dist/",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "test": "vitest"
@@ -14,8 +14,7 @@
   "author": "Javier Fernández @planetazuzu",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/server": "^0.10.0",
-    "@modelcontextprotocol/sdk": "^0.10.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
     "octokit": "^4.0.0"
   },
   "devDependencies": {

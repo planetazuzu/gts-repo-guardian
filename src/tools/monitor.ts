@@ -20,6 +20,7 @@ export async function watchRepositories(username: string, daysInactive: number =
     }> = [];
 
     for (const repo of repos) {
+      if (!repo.updated_at) continue;
       const updated = new Date(repo.updated_at);
       const daysSinceUpdate = Math.floor((now.getTime() - updated.getTime()) / (1000 * 60 * 60 * 24));
       
@@ -28,7 +29,7 @@ export async function watchRepositories(username: string, daysInactive: number =
           name: repo.name,
           daysSinceUpdate,
           updated: updated.toLocaleDateString(),
-          description: repo.description,
+          description: repo.description || undefined,
         });
       }
     }

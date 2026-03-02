@@ -118,20 +118,24 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
+  if (!args) {
+    return { content: [{ type: 'text', text: 'Error: Arguments missing' }], isError: true };
+  }
+
   try {
     switch (name) {
       case 'review_repository':
-        return await reviewRepository(args.owner, args.repo);
+        return await reviewRepository(String(args.owner), String(args.repo));
       case 'generate_readme':
-        return await generateReadme(args.owner, args.repo, args.template);
+        return await generateReadme(String(args.owner), String(args.repo), args.template ? String(args.template) : 'tech');
       case 'clean_repository':
-        return await cleanRepository(args.owner, args.repo);
+        return await cleanRepository(String(args.owner), String(args.repo));
       case 'review_all_repositories':
-        return await reviewAllRepositories(args.username);
+        return await reviewAllRepositories(String(args.username));
       case 'apply_improvements':
-        return await applyImprovements(args.owner, args.repo, args.improvements);
+        return await applyImprovements(String(args.owner), String(args.repo), Array.isArray(args.improvements) ? args.improvements.map(String) : []);
       case 'watch_repositories':
-        return await watchRepositories(args.username, args.daysInactive);
+        return await watchRepositories(String(args.username), args.daysInactive ? Number(args.daysInactive) : 30);
       default:
         throw new Error(`Herramienta desconocida: ${name}`);
     }
